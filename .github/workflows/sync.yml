@@ -1,0 +1,57 @@
+name: Sync
+
+on:
+  schedule:
+    # Sundays 03:00 UTC
+    - cron: '0 3 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: '11'
+
+      - run: pnpm install --frozen-lockfile=false
+
+      - id: sync
+        run: pnpm sync
+
+      - name: Commit changes (always updates heartbeat)
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          DATE=$(date -u +%Y%m%d)
+          # Tag only when data dirs changed (not just heartbeat)
+          if ! git diff --cached --quiet -- 639-1 639-2 639-3 639-5 manifest.yaml; then
+            git commit -m "chore(data): sync ISO 639 ($DATE)
+
+            Sources: LOC (639-2, 639-5), SIL (639-3)"
+            git tag "data-$DATE"
+            git push origin HEAD --tags
+          else
+            git commit -m "chore(heartbeat): weekly sync check ($DATE)
+
+            No upstream changes this cycle."
+            git push origin HEAD
+          fi

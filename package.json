@@ -1,0 +1,13 @@
+{
+  "name": "iso639-data",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Auto-synced reference data for ISO 639 (parts 1, 2, 3, 5)",
+  "scripts": {
+    "sync": "node scripts/sync.mjs"
+  },
+  "dependencies": {
+    "yaml": "^2.9.0"
+  }
+}

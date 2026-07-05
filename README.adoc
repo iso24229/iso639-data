@@ -1,0 +1,61 @@
+= iso639-data
+
+Automatically synchronized reference data for
+https://en.wikipedia.org/wiki/ISO_639[ISO 639] language codes
+(parts 1, 2, 3, and 5).
+
+== Sources
+
+[cols="1,3,2"]
+|===
+| Part | Source | Format
+| ISO 639-1 | Derived from ISO 639-2 (alpha-2 column) | —
+| ISO 639-2 | https://www.loc.gov/standards/iso639-2/[Library of Congress] | pipe-separated text
+| ISO 639-3 | https://iso639-3.sil.org/[SIL International] | tab-separated value
+| ISO 639-5 | https://id.loc.gov/vocabulary/iso639-5[Library of Congress id.loc.gov] | JSON-LD
+|===
+
+NOTE: ISO 639-5 coverage is limited to the 26 family codes that LOC publishes in
+machine-readable form via `id.loc.gov`. The full ISO 639-5 list (~119 codes) is
+not available as a download from LOC — the `php/iso639-5form.php` form has been
+returning 404 for years. Contributions of additional codes via PR are welcome.
+
+== Layout
+
+----
+639-1/
+  en.yaml
+  zh.yaml
+  ...
+639-2/
+  eng.yaml
+  zho.yaml
+  ...
+639-3/
+  eng.yaml
+  zho.yaml
+  ...
+639-5/
+  ine.yaml
+  sgn.yaml
+  ...
+scripts/
+  sync.mjs                # the scraper
+last-checked-date.txt     # touched every weekly run, even when nothing changed
+----
+
+Each `<part>/<code>.yaml` file has the fields defined by that part's schema
+(see `scripts/sync.mjs`).
+
+== Sync
+
+A GitHub Actions workflow (`.github/workflows/sync.yml`) runs weekly on
+Sunday 03:00 UTC. It:
+
+. Runs `node scripts/sync.mjs`.
+. Commits any data changes.
+. *Always* updates `last-checked-date.txt` (the keep-alive heartbeat) so
+  GitHub does not disable the scheduled workflow after 60 days of inactivity.
+. Tags `data-YYYYMMDD` if anything changed.
+
+The workflow can be triggered manually from the Actions tab.
