@@ -1,0 +1,38 @@
+# JSON Schema for ISO 639-1 entries (alpha-2 codes).
+# Sourced from the alpha-2 column of ISO 639-2. Each entry pairs an
+# alpha-2 code with the equivalent alpha-3 bibliographic/terminological.
+
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://iso24229.org/schemas/iso639/639-1.schema.yaml
+title: ISO 639-1 entry
+type: object
+additionalProperties: false
+required: [code, alpha3, name]
+properties:
+  code:
+    type: string
+    pattern: ^[a-z]{2}$
+    description: ISO 639-1 alpha-2 code, lowercase.
+  alpha3:
+    type: object
+    additionalProperties: false
+    required: [bibliographic, terminological]
+    properties:
+      bibliographic:
+        type: string
+        pattern: ^[a-z]{3}$
+      terminological:
+        type: string
+        pattern: ^[a-z]{3}$
+  name:
+    type: object
+    additionalProperties: false
+    required: [en]
+    properties:
+      en:
+        type: string
+        minLength: 1
+      fr:
+        type: string
+  remarks:
+    type: string

@@ -1,0 +1,57 @@
+# JSON Schema for ISO 639-3 entries (comprehensive alpha-3 coverage).
+# Source: SIL International.
+
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://iso24229.org/schemas/iso639/639-3.schema.yaml
+title: ISO 639-3 entry
+type: object
+additionalProperties: false
+required: [code, scope, type, name]
+properties:
+  code:
+    type: string
+    pattern: ^[a-z]{3}$
+  part2b:
+    type:
+      - string
+      - 'null'
+    pattern: ^[a-z]{3}$
+  part2t:
+    type:
+      - string
+      - 'null'
+    pattern: ^[a-z]{3}$
+  part1:
+    type:
+      - string
+      - 'null'
+    pattern: ^[a-z]{2}$
+  scope:
+    type: string
+    enum: [I, M, S]
+    description: |
+      I = Individual language
+      M = Macrolanguage
+      S = Special
+  type:
+    type: string
+    enum: [L, E, A, H, C, S]
+    description: |
+      L = Living
+      E = Extinct
+      A = Ancient
+      H = Historical
+      C = Constructed
+      S = Special
+  name:
+    type: object
+    additionalProperties: false
+    required: [en]
+    properties:
+      en:
+        type: string
+        minLength: 1
+  comment:
+    type:
+      - string
+      - 'null'

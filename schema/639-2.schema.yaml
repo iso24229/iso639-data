@@ -1,0 +1,38 @@
+# JSON Schema for ISO 639-2 entries (alpha-3 bibliographic/terminological).
+
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://iso24229.org/schemas/iso639/639-2.schema.yaml
+title: ISO 639-2 entry
+type: object
+additionalProperties: false
+required: [code, bibliographic, terminological, name]
+properties:
+  code:
+    type: string
+    pattern: ^[a-z]{3}(-[a-z]{3})?$
+    description: ISO 639-2 alpha-3 terminological code (or reserved range like `qaa-qtz`).
+  bibliographic:
+    type: string
+    pattern: ^[a-z]{3}(-[a-z]{3})?$
+    description: ISO 639-2 alpha-3 bibliographic code (may equal terminological).
+  terminological:
+    type: string
+    pattern: ^[a-z]{3}(-[a-z]{3})?$
+  alpha2:
+    type:
+      - string
+      - 'null'
+    pattern: ^[a-z]{2}$
+  name:
+    type: object
+    additionalProperties: false
+    required: [en, fr]
+    properties:
+      en:
+        type: string
+        minLength: 1
+      fr:
+        type: string
+        minLength: 1
+  remarks:
+    type: string
