@@ -5,9 +5,14 @@
   "version": "0.1.0",
   "description": "Auto-synced reference data for ISO 639 (parts 1, 2, 3, 5)",
   "scripts": {
-    "sync": "node scripts/sync.mjs"
+    "sync": "node scripts/sync.mjs",
+    "validate": "node scripts/validate.mjs"
   },
   "dependencies": {
     "yaml": "^2.9.0"
+  },
+  "devDependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
   }
 }
