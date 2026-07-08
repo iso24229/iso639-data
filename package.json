@@ -1,8 +1,17 @@
 {
   "name": "@iso24229/iso639-data",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Auto-synced reference data for ISO 639 (parts 1, 2, 3, 5)",
+  "main": "./index.mjs",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "sync": "node scripts/sync.mjs",
     "validate": "node scripts/validate.mjs"
@@ -15,7 +24,9 @@
     "schema",
     "manifest.yaml",
     "last-checked-date.txt",
-    "README.adoc"
+    "README.adoc",
+    "index.mjs",
+    "index.d.ts"
   ],
   "publishConfig": {
     "access": "public",
