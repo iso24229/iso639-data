@@ -1,12 +1,25 @@
 {
-  "name": "iso639-data",
-  "private": true,
+  "name": "@iso24229/iso639-data",
   "type": "module",
   "version": "0.1.0",
   "description": "Auto-synced reference data for ISO 639 (parts 1, 2, 3, 5)",
   "scripts": {
     "sync": "node scripts/sync.mjs",
     "validate": "node scripts/validate.mjs"
+  },
+  "files": [
+    "639-1",
+    "639-2",
+    "639-3",
+    "639-5",
+    "schema",
+    "manifest.yaml",
+    "last-checked-date.txt",
+    "README.adoc"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
     "yaml": "^2.9.0"
