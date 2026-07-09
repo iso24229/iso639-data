@@ -19,9 +19,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
-          node-version: '22'
+          node-version: '24'
 
       - uses: pnpm/action-setup@v4
         with:
@@ -45,14 +45,15 @@ jobs:
 
           # Data dirs changed -> cut a release.
           if ! git diff --cached --quiet -- 639-1 639-2 639-3 639-5 manifest.yaml; then
-            # Bump patch in package.json without committing yet.
-            NEW_VERSION=$(npm version patch --no-git-tag-version)
+            # Strip leading "v" if npm version emits one (npm 11+ on Node 24 does)
+            RAW=$(npm version patch --no-git-tag-version)
+            NEW_VERSION="${RAW#v}"
             git add package.json
             git commit -m "chore(data): sync ISO 639 ($DATE)
 
             Sources: LOC (639-2, 639-5), SIL (639-3)
 
-            Release $NEW_VERSION."
+            Release v$NEW_VERSION."
             git tag "v$NEW_VERSION"
             git push origin HEAD --tags
             echo "Released v$NEW_VERSION"
