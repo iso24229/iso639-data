@@ -3,6 +3,10 @@
   "type": "module",
   "version": "0.2.0",
   "description": "Auto-synced reference data for ISO 639 (parts 1, 2, 3, 5)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iso24229/iso639-data.git"
+  },
   "main": "./index.mjs",
   "types": "./index.d.ts",
   "exports": {
