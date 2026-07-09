@@ -36,7 +36,9 @@ jobs:
         run: node scripts/validate.mjs
 
       - name: Publish
-        run: npm publish --provenance --access public
+        # unset NODE_AUTH_TOKEN so npm falls through to the OIDC trusted-publisher flow;
+        # an org-level NODE_AUTH_TOKEN secret would otherwise take precedence and fail.
+        run: unset NODE_AUTH_TOKEN && npm publish --provenance --access public
 
       - name: Dump OIDC claims (diagnostic, runs on any failure)
         if: always()
