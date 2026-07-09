@@ -38,25 +38,6 @@ jobs:
       - name: Publish
         run: npm publish --provenance --access public
 
-      - name: Dump OIDC claims (diagnostic, runs on any failure)
-        if: always()
-        env:
-          ACTIONS_ID_TOKEN_REQUEST_URL: ${{ env.ACTIONS_ID_TOKEN_REQUEST_URL }}
-          ACTIONS_ID_TOKEN_REQUEST_TOKEN: ${{ env.ACTIONS_ID_TOKEN_REQUEST_TOKEN }}
-        run: |
-          echo "=== GitHub environment that npm's trusted publisher binding must match ==="
-          echo "repository (owner/name): $GITHUB_REPOSITORY"
-          echo "workflow ref:           $GITHUB_WORKFLOW_REF"
-          echo "ref:                    $GITHUB_REF"
-          echo "event:                  $GITHUB_EVENT_NAME"
-          echo ""
-          echo "=== OIDC token payload (npm compares these against its binding) ==="
-          resp=$(curl -sS -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=npm")
-          token=$(echo "$resp" | jq -r .value)
-          payload=$(echo "$token" | cut -d. -f2)
-          pad=$(printf '%s' "$payload" | awk '{ if (length($0) % 4) print $0 strrep("=", 4 - length($0) % 4); else print $0 }')
-          printf '%s' "$pad" | tr '_-' '/+' | base64 -d 2>/dev/null | jq '{job_workflow_ref, workflow_ref, repository, repository_owner, ref, environment}'
-
       - name: Notify website to pick up the new version
         if: success()
         env:
