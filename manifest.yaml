@@ -2,9 +2,9 @@ sources:
   639-2: https://www.loc.gov/standards/iso639-2/ISO-639-2_utf-8.txt
   639-3: https://iso639-3.sil.org/sites/iso639-3/files/downloads/iso-639-3.tab
   639-5: https://id.loc.gov/vocabulary/iso639-5
-fetchedAt: 2026-08-09T04:17:44.542Z
+fetchedAt: 2026-08-16T03:48:10.899Z
 counts:
   639-1: 183
   639-2: 487
-  639-3: 7929
+  639-3: 7927
   639-5: 26
