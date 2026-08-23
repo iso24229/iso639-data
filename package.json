@@ -1,7 +1,7 @@
 {
   "name": "@iso24229/iso639-data",
   "type": "module",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "Auto-synced reference data for ISO 639 (parts 1, 2, 3, 5)",
   "repository": {
     "type": "git",
